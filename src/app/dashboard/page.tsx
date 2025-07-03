@@ -97,38 +97,87 @@ const Dashboard = () => {
   }, [selectedPlace]);
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-screen bg-white overflow-hidden">
-      <div className="w-full fixed top-0 z-30">
-        <Navbar />
-      </div>
-      {/* SVG Map */}
-      <div className="w-full md:w-4/5 h-[60vh] md:h-full relative">
-        <svg
-          viewBox="0 0 1500 900"
-          className="w-full h-full"
-          preserveAspectRatio="xMidYMid meet"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <image href="/JTLC.png" x="0" y="0" width="100%" height="100%" />
-          {places.map(({ name, x, y, width, height }) => (
-            <rect
-              key={name}
-              x={x}
-              y={y}
-              width={width}
-              height={height}
-              fill="transparent"
-              rx="5"
-              ry="5"
-              onClick={() => setSelectedPlace(name)}
-              className="cursor-pointer"
-            >
-              <title>{placeDetails[name]?.name || name.replace(/-/g, ' ')}</title>
-            </rect>
-          ))}
-        </svg>
+  <div className="flex flex-col w-full min-h-screen bg-white">
+    <div className="fixed top-0 left-0 w-full">
+      <Navbar />
+    </div>
 
-        {/* Modal */}
+    {/* Spacer under navbar */}
+    <div className="h-[60px]" />
+
+    {/* SVG Map */}
+    <div className="w-full top-5 px-4 py-8">
+      <svg
+        viewBox="0 0 1500 900"
+        className="w-full h-auto"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <image href="/JTLC.png" x="0" y="0" width="100%" height="100%" />
+        {places.map(({ name, x, y, width, height }) => (
+          <rect
+            key={name}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            fill="transparent"
+            rx="5"
+            ry="5"
+            onClick={() => setSelectedPlace(name)}
+            className="cursor-pointer"
+          >
+            <title>{placeDetails[name]?.name || name.replace(/-/g, ' ')}</title>
+          </rect>
+        ))}
+      </svg>
+    </div>
+
+    {/* Map Legend */}
+    <div className="w-full px-4 pb-6">
+      <h2 className="text-xl  md:text-3xl font-semibold text-gray-900 mb-4">
+        Map Legend
+      </h2>
+      <div className="grid grid-cols-2 gap-3 text-gray-800 text-sm">
+        {[
+          { name: <span className="font-semibold">Lobby</span>, color: "#ff0f00" },
+          { name: (
+            <>
+              <span className="font-semibold">Training Building</span>
+              <br />
+              <span className="text-xs text-gray-600">(Front office, classroom, auditorium, etc)</span>
+            </>
+          ), color: "#000000" },
+          { name: <span className="font-semibold">Cafetaria</span>, color: "#c1ff72" },
+          { name: <span className="font-semibold">Dormitory A</span>, color: "#5ce1e6" },
+          { name: <span className="font-semibold">Ballroom</span>, color: "#ff66c4" },
+          { name: <span className="font-semibold">Dormitory B</span>, color: "#cb6ce6" },
+          { name: <span className="font-semibold">Entrance Gate</span>, color: "#a44f30" },
+          { name: <span className="font-semibold">Mosque</span>, color: "#ffde59" },
+          { name: <span className="font-semibold">Parking Area</span>, color: "#ff7a00" },
+          { name: <span className="font-semibold">Sport Center</span>, color: "#0ed837" },
+          { name: <span className="font-semibold">Courtyard</span>, color: "#5e17eb" },
+        ].map(({ name, color }, index) => (
+          <div key={index} className="flex items-start gap-2">
+            <MapPin className="w-6 h-6 mt-1" fill={color} stroke={color} />
+            <span className="text-sm leading-snug">{name}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 text-xl text-gray-500">
+        <p>Click on the map to navigate to different sections or scan the QR below.</p>
+      </div>
+    </div>
+
+    {/* QR Code */}
+    <div className="w-full flex justify-center pb-10">
+      <img 
+        src="/QR_JTLC.png" 
+        alt="QR Code JTLC"
+        className="w-36 h-36 object-contain"
+      />
+    </div>
+
+    {/* Modal */}
         <AnimatePresence>
           {selectedPlace && (
             <>
@@ -190,75 +239,7 @@ const Dashboard = () => {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Map Legend */}
-      <div className="w-full md:w-1/5 h-[40vh] md:h-full bg-white px-4 py-6 overflow-y-auto">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4 text-left">
-          Map Legend
-        </h2>
-        <div className="grid grid-cols-2 gap-3 text-gray-800 text-sm">
-          {[
-          { name: ( 
-            <>
-              <span className="font-semibold">Lobby</span>
-            </> ),color: "#ff0f00" },
-          {
-            name: (
-              <>
-                <span className="font-semibold">Training Building</span>
-                <br />
-                <span className="text-xs text-gray-600">(Front office, classroom, auditorium, etc)</span>
-              </>),color: "#000000"
-          },
-          { name: (
-            <>
-              <span className="font-semibold">Cafetaria</span>
-            </> ),color: "#c1ff72" },
-          { name: ( 
-            <>
-              <span className="font-semibold">Dormitory A</span>
-            </> ), color: "#5ce1e6" },
-          { name: (
-            <>
-              <span className="font-semibold">Ballroom</span>
-            </> ), color: "#ff66c4" },
-          { name: (
-            <>
-              <span className="font-semibold">Dormitory B</span>
-            </> ), color: "#cb6ce6" },
-          { name: (
-            <>
-              <span className="font-semibold">Entrance Gate</span>
-            </> ), color: "#a44f30" },  
-          { name: (
-            <>
-              <span className="font-semibold">Mosque</span>
-            </> ), color: "#ffde59" },
-          { name: (
-            <>
-              <span className="font-semibold">Parking Area</span>
-            </> ), color: "#ff7a00" },
-          { name: (
-            <>
-              <span className="font-semibold">Sport Center</span>
-            </> ), color: "#0ed837" },
-          { name: (
-            <>
-              <span className="font-semibold">Courtyard</span>
-            </> ), color: "#5e17eb" },
-        ].map(({ name, color }, index) => (
-          <div key={index} className="flex items-start gap-2">
-            <MapPin className="w-6 h-6 mt-1" fill={color} stroke={color} />
-            <span className="text-sm leading-snug">{name}</span>
-          </div>
-        ))}
-        </div>
-        <div className="mt-4 text-xs text-gray-500">
-          <p>Click on the map to navigate to different sections.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+);
+}
 
 export default Dashboard;

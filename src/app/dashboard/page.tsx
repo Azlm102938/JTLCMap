@@ -169,7 +169,7 @@ const Dashboard = () => {
     </div>
 
     {/* QR Code */}
-    <div className="w-full flex justify-center pb-10">
+    <div className="w-full flex justify-end pb-10 mt-4">
       <img 
         src="/QR_JTLC.png" 
         alt="QR Code JTLC"

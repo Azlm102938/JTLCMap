@@ -157,8 +157,8 @@ const Dashboard = () => {
           { name: <span className="font-semibold">Sport Center</span>, color: "#0ed837" },
           { name: <span className="font-semibold">Courtyard</span>, color: "#5e17eb" },
         ].map(({ name, color }, index) => (
-          <div key={index} className="flex items-start gap-2">
-            <MapPin className="w-6 h-6 mt-1" fill={color} stroke={color} />
+          <div key={index} className="flex items-center gap-2">
+            <MapPin className="w-6 h-6" fill={color} stroke={color} />
             <span className="text-sm leading-snug">{name}</span>
           </div>
         ))}
